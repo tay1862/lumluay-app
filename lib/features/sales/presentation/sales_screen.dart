@@ -131,14 +131,39 @@ class _SalesScreenState extends ConsumerState<SalesScreen> {
   }
 
   Widget _catChip(String? id, String label) {
+    final isActive = _selectedCategoryId == id;
     return Padding(
-      padding: const EdgeInsets.only(right: 6),
-      child: Button(
-        style: _selectedCategoryId == id
-            ? const ButtonStyle.primary(density: ButtonDensity.compact)
-            : const ButtonStyle.outline(density: ButtonDensity.compact),
-        onPressed: () => setState(() => _selectedCategoryId = id),
-        child: Text(label),
+      padding: const EdgeInsets.only(right: 8),
+      child: GestureDetector(
+        onTap: () => setState(() => _selectedCategoryId = id),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: isActive ? const Color(0xFF2563EB) : Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isActive ? const Color(0xFF2563EB) : const Color(0xFFBFDBFE),
+            ),
+            boxShadow: isActive
+                ? [
+                    BoxShadow(
+                      color: const Color(0xFF2563EB).withValues(alpha: 0.2),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : [],
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+              color: isActive ? Colors.white : const Color(0xFF334155),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -246,9 +271,14 @@ class _SalesScreenState extends ConsumerState<SalesScreen> {
 
     return Container(
       decoration: BoxDecoration(
-        border: Border(
-          left: BorderSide(color: theme.colorScheme.border, width: 1),
-        ),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF3B82F6).withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(-2, 0),
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -556,38 +586,112 @@ class _CustomerBadge extends ConsumerWidget {
   }
 }
 
+// ── Item card color palette ──
+const _itemCardColors = [
+  Color(0xFFEFF6FF), // blue-50
+  Color(0xFFF0FDF4), // green-50
+  Color(0xFFFFF7ED), // orange-50
+  Color(0xFFFDF4FF), // purple-50
+  Color(0xFFF0F9FF), // sky-50
+  Color(0xFFFFF1F2), // rose-50
+  Color(0xFFF5F3FF), // violet-50
+  Color(0xFFECFDF5), // emerald-50
+];
+const _itemCardAccents = [
+  Color(0xFF3B82F6),
+  Color(0xFF10B981),
+  Color(0xFFF59E0B),
+  Color(0xFF8B5CF6),
+  Color(0xFF06B6D4),
+  Color(0xFFEF4444),
+  Color(0xFF7C3AED),
+  Color(0xFF059669),
+];
+
 // ── POS Item Card ──
-class _PosItemCard extends StatelessWidget {
+class _PosItemCard extends StatefulWidget {
   final Item item;
   final VoidCallback onTap;
 
   const _PosItemCard({required this.item, required this.onTap});
 
   @override
+  State<_PosItemCard> createState() => _PosItemCardState();
+}
+
+class _PosItemCardState extends State<_PosItemCard> {
+  bool _pressed = false;
+
+  @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colorIndex = widget.item.name.hashCode.abs() % _itemCardColors.length;
+    final bgColor = _itemCardColors[colorIndex];
+    final accentColor = _itemCardAccents[colorIndex];
+
     return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) {
+        setState(() => _pressed = false);
+        widget.onTap();
+      },
+      onTapCancel: () => setState(() => _pressed = false),
+      child: AnimatedScale(
+        scale: _pressed ? 0.95 : 1.0,
+        duration: const Duration(milliseconds: 120),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+            boxShadow: [
+              BoxShadow(
+                color: accentColor.withValues(alpha: 0.06),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(RadixIcons.cube, size: 28,
-                  color: theme.colorScheme.mutedForeground),
-              const SizedBox(height: 6),
-              Text(item.name,
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: bgColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Icon(RadixIcons.cube, size: 22, color: accentColor),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  widget.item.name,
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center),
+                  textAlign: TextAlign.center,
+                ),
+              ),
               const SizedBox(height: 4),
-              Text('₭${item.price.toStringAsFixed(0)}',
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: accentColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  '₭${widget.item.price.toStringAsFixed(0)}',
                   style: TextStyle(
-                      color: theme.colorScheme.primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13)),
+                    color: accentColor,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

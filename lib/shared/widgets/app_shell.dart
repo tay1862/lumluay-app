@@ -4,6 +4,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../core/constants/app_constants.dart';
 import '../../core/providers/auth_provider.dart';
+import '../../core/theme/app_theme.dart';
 import '../../features/settings/data/settings_providers.dart';
 
 class _NavItem {
@@ -82,7 +83,7 @@ class AppShell extends ConsumerWidget {
 }
 
 // ============================================================
-// DESKTOP: Full sidebar with labels
+// DESKTOP: Beautiful gradient sidebar with labels
 // ============================================================
 
 class _DesktopShell extends StatelessWidget {
@@ -100,75 +101,166 @@ class _DesktopShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Row(
       children: [
-        SizedBox(
-          width: 220,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  color: theme.colorScheme.border,
-                  width: 1,
+        // ── Sidebar ──
+        Container(
+          width: 230,
+          decoration: const BoxDecoration(
+            gradient: AppTheme.sidebarGradient,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // ── Brand header ──
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Center(
+                        child: Text('☕', style: TextStyle(fontSize: 20)),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    const Text(
+                      'Lumluay POS',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        letterSpacing: -0.3,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Icon(RadixIcons.home, size: 24, color: theme.colorScheme.primary),
-                      const SizedBox(width: 8),
-                      Text(
-                        AppConstants.appName,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+              Container(
+                height: 1,
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                color: Colors.white.withValues(alpha: 0.12),
+              ),
+              const SizedBox(height: 8),
+              // ── Nav items ──
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _navItems.length,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  itemBuilder: (context, index) {
+                    final item = _navItems[index];
+                    final isSelected = index == currentIndex;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: _SidebarButton(
+                        icon: item.icon,
+                        label: item.label,
+                        isSelected: isSelected,
+                        onTap: () => onNavTap(index),
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
-                const Divider(),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: _navItems.length,
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    itemBuilder: (context, index) {
-                      final item = _navItems[index];
-                      final isSelected = index == currentIndex;
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: Button(
-                          style: isSelected
-                              ? const ButtonStyle.secondary(density: ButtonDensity.comfortable)
-                              : const ButtonStyle.ghost(density: ButtonDensity.comfortable),
-                          onPressed: () => onNavTap(index),
-                          child: Row(
-                            children: [
-                              Icon(item.icon, size: 18),
-                              const SizedBox(width: 10),
-                              Text(item.label),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const Divider(),
-                // Store switcher
-                _StoreSwitcher(ref: ref),
-              ],
-            ),
+              ),
+              Container(
+                height: 1,
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                color: Colors.white.withValues(alpha: 0.12),
+              ),
+              _StoreSwitcher(ref: ref),
+            ],
           ),
         ),
-        Expanded(child: child),
+        // ── Content ──
+        Expanded(
+          child: Container(
+            color: const Color(0xFFF0F9FF),
+            child: child,
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class _SidebarButton extends StatefulWidget {
+  final IconData icon;
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _SidebarButton({
+    required this.icon,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  State<_SidebarButton> createState() => _SidebarButtonState();
+}
+
+class _SidebarButtonState extends State<_SidebarButton> {
+  bool _hovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovering = true),
+      onExit: (_) => setState(() => _hovering = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          decoration: BoxDecoration(
+            color: widget.isSelected
+                ? Colors.white.withValues(alpha: 0.18)
+                : _hovering
+                    ? Colors.white.withValues(alpha: 0.08)
+                    : Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                widget.icon,
+                size: 18,
+                color: widget.isSelected
+                    ? Colors.white
+                    : Colors.white.withValues(alpha: 0.7),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                widget.label,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: widget.isSelected ? FontWeight.w600 : FontWeight.w400,
+                  color: widget.isSelected
+                      ? Colors.white
+                      : Colors.white.withValues(alpha: 0.7),
+                ),
+              ),
+              if (widget.isSelected) ...[
+                const Spacer(),
+                Container(
+                  width: 6,
+                  height: 6,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF60A5FA),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -185,31 +277,47 @@ class _StoreSwitcher extends StatelessWidget {
 
     return storesAsync.when(
       data: (stores) {
-        if (stores.length <= 1) return const SizedBox.shrink();
+        if (stores.length <= 1) return const SizedBox(height: 12);
         return Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: stores.map((store) {
               final isSelected = store.id == currentStoreId;
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 1),
-                child: Button(
-                  style: isSelected
-                      ? const ButtonStyle.primary(density: ButtonDensity.compact)
-                      : const ButtonStyle.ghost(density: ButtonDensity.compact),
-                  onPressed: () =>
-                      ref.read(authProvider.notifier).switchStore(store.id),
-                  child: Row(
-                    children: [
-                      const Icon(RadixIcons.home, size: 14),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(store.name,
+                child: GestureDetector(
+                  onTap: () => ref.read(authProvider.notifier).switchStore(store.id),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? Colors.white.withValues(alpha: 0.15)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          RadixIcons.home,
+                          size: 14,
+                          color: Colors.white.withValues(alpha: 0.7),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            store.name,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 12)),
-                      ),
-                    ],
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white.withValues(alpha: isSelected ? 1 : 0.7),
+                              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -217,14 +325,14 @@ class _StoreSwitcher extends StatelessWidget {
           ),
         );
       },
-      loading: () => const SizedBox.shrink(),
-      error: (_, _) => const SizedBox.shrink(),
+      loading: () => const SizedBox(height: 12),
+      error: (_, _) => const SizedBox(height: 12),
     );
   }
 }
 
 // ============================================================
-// TABLET: Narrow sidebar with icons only
+// TABLET: Narrow icon sidebar with blue gradient
 // ============================================================
 
 class _TabletShell extends StatelessWidget {
@@ -240,60 +348,85 @@ class _TabletShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Row(
       children: [
-        SizedBox(
-          width: 64,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  color: theme.colorScheme.border,
-                  width: 1,
-                ),
-              ),
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Icon(RadixIcons.home, size: 24, color: theme.colorScheme.primary),
-                ),
-                const Divider(),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: _navItems.length,
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    itemBuilder: (context, index) {
-                      final item = _navItems[index];
-                      final isSelected = index == currentIndex;
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-                        child: IconButton.ghost(
-                          icon: Icon(
-                            item.icon,
-                            size: 20,
-                            color: isSelected ? theme.colorScheme.primary : null,
-                          ),
-                          onPressed: () => onNavTap(index),
-                        ),
-                      );
-                    },
+        Container(
+          width: 68,
+          decoration: const BoxDecoration(
+            gradient: AppTheme.sidebarGradient,
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: Text('☕', style: TextStyle(fontSize: 20)),
                   ),
                 ),
-              ],
-            ),
+              ),
+              Container(
+                height: 1,
+                margin: const EdgeInsets.symmetric(horizontal: 12),
+                color: Colors.white.withValues(alpha: 0.12),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _navItems.length,
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  itemBuilder: (context, index) {
+                    final item = _navItems[index];
+                    final isSelected = index == currentIndex;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+                      child: GestureDetector(
+                        onTap: () => onNavTap(index),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? Colors.white.withValues(alpha: 0.18)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              item.icon,
+                              size: 20,
+                              color: isSelected
+                                  ? Colors.white
+                                  : Colors.white.withValues(alpha: 0.6),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
-        Expanded(child: child),
+        Expanded(
+          child: Container(
+            color: const Color(0xFFF0F9FF),
+            child: child,
+          ),
+        ),
       ],
     );
   }
 }
 
 // ============================================================
-// MOBILE: Bottom navigation with buttons
+// MOBILE: Bottom tab bar
 // ============================================================
 
 class _MobileShell extends StatelessWidget {
@@ -309,26 +442,32 @@ class _MobileShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    const mobileIndices = [0, 1, 6, 7]; // Sales, Items, Reports, Settings
+    const mobileIndices = [0, 2, 9, 10]; // Sales, Items, Reports, Settings
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(child: child),
-        DecoratedBox(
+        Expanded(
+          child: Container(
+            color: const Color(0xFFF0F9FF),
+            child: child,
+          ),
+        ),
+        Container(
           decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: theme.colorScheme.border,
-                width: 1,
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF3B82F6).withValues(alpha: 0.08),
+                blurRadius: 10,
+                offset: const Offset(0, -2),
               ),
-            ),
+            ],
           ),
           child: SafeArea(
             top: false,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: mobileIndices.map((i) {
@@ -336,22 +475,41 @@ class _MobileShell extends StatelessWidget {
                   final isSelected = i == currentIndex;
                   return GestureDetector(
                     onTap: () => onNavTap(i),
+                    behavior: HitTestBehavior.opaque,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
-                            item.icon,
-                            size: 22,
-                            color: isSelected ? theme.colorScheme.primary : theme.colorScheme.mutedForeground,
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: isSelected ? 16 : 0,
+                              vertical: isSelected ? 4 : 0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? const Color(0xFFEFF6FF)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Icon(
+                              item.icon,
+                              size: 22,
+                              color: isSelected
+                                  ? const Color(0xFF2563EB)
+                                  : const Color(0xFF94A3B8),
+                            ),
                           ),
-                          const SizedBox(height: 2),
+                          const SizedBox(height: 3),
                           Text(
                             item.label,
                             style: TextStyle(
                               fontSize: 11,
-                              color: isSelected ? theme.colorScheme.primary : theme.colorScheme.mutedForeground,
+                              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                              color: isSelected
+                                  ? const Color(0xFF2563EB)
+                                  : const Color(0xFF94A3B8),
                             ),
                           ),
                         ],
