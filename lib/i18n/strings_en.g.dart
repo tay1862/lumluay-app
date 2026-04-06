@@ -40,14 +40,17 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsCommonEn common = TranslationsCommonEn.internal(_root);
 	late final TranslationsAuthEn auth = TranslationsAuthEn.internal(_root);
 	late final TranslationsSalesEn sales = TranslationsSalesEn.internal(_root);
+	late final TranslationsReceiptsEn receipts = TranslationsReceiptsEn.internal(_root);
 	late final TranslationsItemsEn items = TranslationsItemsEn.internal(_root);
 	late final TranslationsInventoryEn inventory = TranslationsInventoryEn.internal(_root);
+	late final TranslationsProductionEn production = TranslationsProductionEn.internal(_root);
 	late final TranslationsCustomersEn customers = TranslationsCustomersEn.internal(_root);
 	late final TranslationsEmployeesEn employees = TranslationsEmployeesEn.internal(_root);
 	late final TranslationsShiftsEn shifts = TranslationsShiftsEn.internal(_root);
 	late final TranslationsReportsEn reports = TranslationsReportsEn.internal(_root);
 	late final TranslationsSettingsEn settings = TranslationsSettingsEn.internal(_root);
 	late final TranslationsCurrencyEn currency = TranslationsCurrencyEn.internal(_root);
+	late final TranslationsRestaurantEn restaurant = TranslationsRestaurantEn.internal(_root);
 }
 
 // Path: app
@@ -96,6 +99,15 @@ class TranslationsNavEn {
 
 	/// en: 'Settings'
 	String get settings => 'Settings';
+
+	/// en: 'Tickets'
+	String get tickets => 'Tickets';
+
+	/// en: 'Tables'
+	String get tables => 'Tables';
+
+	/// en: 'KDS'
+	String get kds => 'KDS';
 }
 
 // Path: common
@@ -303,6 +315,96 @@ class TranslationsSalesEn {
 
 	/// en: 'Void Receipt'
 	String get voidReceipt => 'Void Receipt';
+
+	/// en: 'Split Payment'
+	String get splitPayment => 'Split Payment';
+
+	/// en: 'Amount Tendered'
+	String get amountTendered => 'Amount Tendered';
+
+	/// en: 'Insufficient amount'
+	String get insufficientAmount => 'Insufficient amount';
+
+	/// en: 'Payment Method'
+	String get paymentMethod => 'Payment Method';
+}
+
+// Path: receipts
+class TranslationsReceiptsEn {
+	TranslationsReceiptsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Receipts'
+	String get title => 'Receipts';
+
+	/// en: 'Receipt History'
+	String get receiptHistory => 'Receipt History';
+
+	/// en: 'Receipt Detail'
+	String get receiptDetail => 'Receipt Detail';
+
+	/// en: 'No receipts found'
+	String get noReceipts => 'No receipts found';
+
+	/// en: 'Reprint'
+	String get reprint => 'Reprint';
+
+	/// en: 'Email Receipt'
+	String get emailReceipt => 'Email Receipt';
+
+	/// en: 'Completed'
+	String get completed => 'Completed';
+
+	/// en: 'Voided'
+	String get voided => 'Voided';
+
+	/// en: 'Refunded'
+	String get refunded => 'Refunded';
+
+	/// en: 'Refund Receipt'
+	String get refundReceipt => 'Refund Receipt';
+
+	/// en: 'Refund Reason'
+	String get refundReason => 'Refund Reason';
+
+	/// en: 'Enter reason for refund'
+	String get refundReasonHint => 'Enter reason for refund';
+
+	/// en: 'Full Refund'
+	String get fullRefund => 'Full Refund';
+
+	/// en: 'Partial Refund'
+	String get partialRefund => 'Partial Refund';
+
+	/// en: 'Select items to refund'
+	String get selectItemsToRefund => 'Select items to refund';
+
+	/// en: 'Refund Amount'
+	String get refundAmount => 'Refund Amount';
+
+	/// en: 'Refund processed successfully'
+	String get refundProcessed => 'Refund processed successfully';
+
+	/// en: 'Are you sure you want to void this receipt?'
+	String get confirmVoid => 'Are you sure you want to void this receipt?';
+
+	/// en: 'Are you sure you want to refund this receipt?'
+	String get confirmRefund => 'Are you sure you want to refund this receipt?';
+
+	/// en: '${count} item(s)'
+	String items({required Object count}) => '${count} item(s)';
+
+	/// en: 'Paid with'
+	String get paidWith => 'Paid with';
+
+	/// en: 'Print Receipt'
+	String get printReceipt => 'Print Receipt';
+
+	/// en: 'Share Receipt'
+	String get shareReceipt => 'Share Receipt';
 }
 
 // Path: items
@@ -399,6 +501,258 @@ class TranslationsInventoryEn {
 
 	/// en: 'In Stock'
 	String get inStock => 'In Stock';
+
+	/// en: 'Quantity'
+	String get quantity => 'Quantity';
+
+	/// en: 'Adjustment'
+	String get adjustment => 'Adjustment';
+
+	/// en: 'Reason'
+	String get reason => 'Reason';
+
+	/// en: 'Damaged'
+	String get damaged => 'Damaged';
+
+	/// en: 'Lost'
+	String get lost => 'Lost';
+
+	/// en: 'Correction'
+	String get correction => 'Correction';
+
+	/// en: 'Received'
+	String get received => 'Received';
+
+	/// en: 'Returned'
+	String get returned => 'Returned';
+
+	/// en: 'Other'
+	String get other => 'Other';
+
+	/// en: 'Adjustment History'
+	String get adjustmentHistory => 'Adjustment History';
+
+	/// en: 'No stock items found'
+	String get noStockItems => 'No stock items found';
+
+	/// en: 'Start Count'
+	String get startCount => 'Start Count';
+
+	/// en: 'Apply Count'
+	String get applyCount => 'Apply Count';
+
+	/// en: 'Expected'
+	String get expected => 'Expected';
+
+	/// en: 'Counted'
+	String get counted => 'Counted';
+
+	/// en: 'Difference'
+	String get difference => 'Difference';
+
+	/// en: 'Inventory count completed'
+	String get countCompleted => 'Inventory count completed';
+
+	/// en: 'Threshold'
+	String get threshold => 'Threshold';
+
+	/// en: 'Set Low Stock Threshold'
+	String get setThreshold => 'Set Low Stock Threshold';
+
+	/// en: 'Inventory Valuation'
+	String get valuation => 'Inventory Valuation';
+
+	/// en: 'Total Value'
+	String get totalValue => 'Total Value';
+
+	/// en: 'Stock adjustment created'
+	String get adjustmentCreated => 'Stock adjustment created';
+
+	/// en: 'Create Purchase Order'
+	String get createPO => 'Create Purchase Order';
+
+	/// en: 'Edit Purchase Order'
+	String get editPO => 'Edit Purchase Order';
+
+	/// en: 'PO #'
+	String get poNumber => 'PO #';
+
+	/// en: 'No purchase orders'
+	String get noPurchaseOrders => 'No purchase orders';
+
+	/// en: 'Draft'
+	String get draft => 'Draft';
+
+	/// en: 'Ordered'
+	String get ordered => 'Ordered';
+
+	/// en: 'Partially Received'
+	String get partiallyReceived => 'Partially Received';
+
+	/// en: 'Received'
+	String get receivedStatus => 'Received';
+
+	/// en: 'Receive Stock'
+	String get receiveStock => 'Receive Stock';
+
+	/// en: 'Received Qty'
+	String get receivedQty => 'Received Qty';
+
+	/// en: 'Add Supplier'
+	String get addSupplier => 'Add Supplier';
+
+	/// en: 'Edit Supplier'
+	String get editSupplier => 'Edit Supplier';
+
+	/// en: 'No suppliers yet'
+	String get noSuppliers => 'No suppliers yet';
+
+	/// en: 'Supplier Name'
+	String get supplierName => 'Supplier Name';
+
+	/// en: 'Phone'
+	String get phone => 'Phone';
+
+	/// en: 'Email'
+	String get email => 'Email';
+
+	/// en: 'Address'
+	String get address => 'Address';
+
+	/// en: 'Select Supplier'
+	String get selectSupplier => 'Select Supplier';
+
+	/// en: 'Add Items'
+	String get addItems => 'Add Items';
+
+	/// en: 'Unit Cost'
+	String get unitCost => 'Unit Cost';
+
+	/// en: 'Purchase order created'
+	String get poCreated => 'Purchase order created';
+
+	/// en: 'Purchase order updated'
+	String get poUpdated => 'Purchase order updated';
+
+	/// en: 'Stock received successfully'
+	String get stockReceived => 'Stock received successfully';
+
+	/// en: 'Create Transfer'
+	String get createTransfer => 'Create Transfer';
+
+	/// en: 'No transfers yet'
+	String get noTransfers => 'No transfers yet';
+
+	/// en: 'From Store'
+	String get fromStore => 'From Store';
+
+	/// en: 'To Store'
+	String get toStore => 'To Store';
+
+	/// en: 'Pending'
+	String get pending => 'Pending';
+
+	/// en: 'In Transit'
+	String get inTransit => 'In Transit';
+
+	/// en: 'Transfer created'
+	String get transferCreated => 'Transfer created';
+
+	/// en: 'Transfer completed'
+	String get transferCompleted => 'Transfer completed';
+
+	/// en: 'Select Items'
+	String get selectItems => 'Select Items';
+}
+
+// Path: production
+class TranslationsProductionEn {
+	TranslationsProductionEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Production'
+	String get title => 'Production';
+
+	/// en: 'Recipes'
+	String get recipes => 'Recipes';
+
+	/// en: 'Add Recipe'
+	String get addRecipe => 'Add Recipe';
+
+	/// en: 'Edit Recipe'
+	String get editRecipe => 'Edit Recipe';
+
+	/// en: 'No recipes yet'
+	String get noRecipes => 'No recipes yet';
+
+	/// en: 'Finished Item'
+	String get finishedItem => 'Finished Item';
+
+	/// en: 'Select Finished Item'
+	String get selectFinishedItem => 'Select Finished Item';
+
+	/// en: 'Output Quantity'
+	String get outputQuantity => 'Output Quantity';
+
+	/// en: 'Ingredients'
+	String get ingredients => 'Ingredients';
+
+	/// en: 'Add Ingredient'
+	String get addIngredient => 'Add Ingredient';
+
+	/// en: 'Select Ingredient'
+	String get selectIngredient => 'Select Ingredient';
+
+	/// en: 'Qty Required'
+	String get ingredientQty => 'Qty Required';
+
+	/// en: 'Produce'
+	String get produce => 'Produce';
+
+	/// en: 'Produce Now'
+	String get produceNow => 'Produce Now';
+
+	/// en: 'Batch Quantity'
+	String get batchQuantity => 'Batch Quantity';
+
+	/// en: 'Insufficient stock for one or more ingredients'
+	String get insufficientStock => 'Insufficient stock for one or more ingredients';
+
+	/// en: 'Production completed'
+	String get productionComplete => 'Production completed';
+
+	/// en: 'Recipe created'
+	String get recipeCreated => 'Recipe created';
+
+	/// en: 'Recipe updated'
+	String get recipeUpdated => 'Recipe updated';
+
+	/// en: 'Recipe deleted'
+	String get recipeDeleted => 'Recipe deleted';
+
+	/// en: 'Are you sure you want to delete this recipe?'
+	String get confirmDelete => 'Are you sure you want to delete this recipe?';
+
+	/// en: 'Production Log'
+	String get productionLog => 'Production Log';
+
+	/// en: 'No production logs'
+	String get noLogs => 'No production logs';
+
+	/// en: 'Current Stock'
+	String get currentStock => 'Current Stock';
+
+	/// en: 'Required'
+	String get required => 'Required';
+
+	/// en: 'Available'
+	String get available => 'Available';
+
+	/// en: 'Notes'
+	String get notes => 'Notes';
 }
 
 // Path: customers
@@ -426,6 +780,48 @@ class TranslationsCustomersEn {
 
 	/// en: 'Visits'
 	String get visits => 'Visits';
+
+	/// en: 'No customers yet'
+	String get noCustomers => 'No customers yet';
+
+	/// en: 'Customer Name'
+	String get customerName => 'Customer Name';
+
+	/// en: 'Phone'
+	String get phone => 'Phone';
+
+	/// en: 'Email'
+	String get email => 'Email';
+
+	/// en: 'Address'
+	String get address => 'Address';
+
+	/// en: 'Birthday'
+	String get birthday => 'Birthday';
+
+	/// en: 'Notes'
+	String get notes => 'Notes';
+
+	/// en: 'Purchase History'
+	String get purchaseHistory => 'Purchase History';
+
+	/// en: 'Loyalty Balance'
+	String get loyaltyBalance => 'Loyalty Balance';
+
+	/// en: 'Points Earned'
+	String get pointsEarned => 'Points Earned';
+
+	/// en: 'Points Redeemed'
+	String get pointsRedeemed => 'Points Redeemed';
+
+	/// en: 'Customer created'
+	String get customerCreated => 'Customer created';
+
+	/// en: 'Customer updated'
+	String get customerUpdated => 'Customer updated';
+
+	/// en: 'Assign Customer'
+	String get assignCustomer => 'Assign Customer';
 }
 
 // Path: employees
@@ -459,6 +855,75 @@ class TranslationsEmployeesEn {
 
 	/// en: 'Clock Out'
 	String get clockOut => 'Clock Out';
+
+	/// en: 'Employee Name'
+	String get employeeName => 'Employee Name';
+
+	/// en: 'Select Role'
+	String get selectRole => 'Select Role';
+
+	/// en: 'Enter PIN'
+	String get enterPin => 'Enter PIN';
+
+	/// en: '4-6 digits'
+	String get pinHint => '4-6 digits';
+
+	/// en: 'No Role'
+	String get noRole => 'No Role';
+
+	/// en: 'Roles'
+	String get roles => 'Roles';
+
+	/// en: 'Add Role'
+	String get addRole => 'Add Role';
+
+	/// en: 'Edit Role'
+	String get editRole => 'Edit Role';
+
+	/// en: 'Role Name'
+	String get roleName => 'Role Name';
+
+	/// en: 'No roles yet'
+	String get noRoles => 'No roles yet';
+
+	/// en: 'Employee created'
+	String get employeeCreated => 'Employee created';
+
+	/// en: 'Employee updated'
+	String get employeeUpdated => 'Employee updated';
+
+	/// en: 'Employee deleted'
+	String get employeeDeleted => 'Employee deleted';
+
+	/// en: 'Role created'
+	String get roleCreated => 'Role created';
+
+	/// en: 'Role updated'
+	String get roleUpdated => 'Role updated';
+
+	/// en: 'Role deleted'
+	String get roleDeleted => 'Role deleted';
+
+	/// en: 'Clocked In'
+	String get clockedIn => 'Clocked In';
+
+	/// en: 'Clocked Out'
+	String get clockedOut => 'Clocked Out';
+
+	/// en: 'Not clocked in'
+	String get notClockedIn => 'Not clocked in';
+
+	/// en: 'Time Entries'
+	String get timeEntries => 'Time Entries';
+
+	/// en: 'No time entries'
+	String get noTimeEntries => 'No time entries';
+
+	/// en: 'Duration'
+	String get duration => 'Duration';
+
+	/// en: 'Delete this employee?'
+	String get confirmDelete => 'Delete this employee?';
 }
 
 // Path: shifts
@@ -498,6 +963,45 @@ class TranslationsShiftsEn {
 
 	/// en: 'Shift History'
 	String get shiftHistory => 'Shift History';
+
+	/// en: 'No shift open'
+	String get noShift => 'No shift open';
+
+	/// en: 'Shift opened'
+	String get shiftOpened => 'Shift opened';
+
+	/// en: 'Shift closed'
+	String get shiftClosed => 'Shift closed';
+
+	/// en: 'Cash added'
+	String get cashAdded => 'Cash added';
+
+	/// en: 'Cash removed'
+	String get cashRemoved => 'Cash removed';
+
+	/// en: 'Reason'
+	String get reason => 'Reason';
+
+	/// en: 'Amount'
+	String get amount => 'Amount';
+
+	/// en: 'Enter amount'
+	String get enterAmount => 'Enter amount';
+
+	/// en: 'A shift is already open'
+	String get alreadyOpen => 'A shift is already open';
+
+	/// en: 'Shift Summary'
+	String get shiftSummary => 'Shift Summary';
+
+	/// en: 'Total Sales'
+	String get totalSales => 'Total Sales';
+
+	/// en: 'Cash Movements'
+	String get cashMovements => 'Cash Movements';
+
+	/// en: 'No cash movements'
+	String get noMovements => 'No cash movements';
 }
 
 // Path: reports
@@ -523,14 +1027,26 @@ class TranslationsReportsEn {
 	/// en: 'Sales by Payment Method'
 	String get salesByPayment => 'Sales by Payment Method';
 
+	/// en: 'Sales by Hour'
+	String get salesByHour => 'Sales by Hour';
+
+	/// en: 'Tax Report'
+	String get taxReport => 'Tax Report';
+
+	/// en: 'Discount Report'
+	String get discountReport => 'Discount Report';
+
+	/// en: 'Customer Report'
+	String get customerReport => 'Customer Report';
+
+	/// en: 'Inventory Report'
+	String get inventoryReport => 'Inventory Report';
+
 	/// en: 'Profit & Loss'
 	String get profitAndLoss => 'Profit & Loss';
 
 	/// en: 'Expenses'
 	String get expenses => 'Expenses';
-
-	/// en: 'Inventory Report'
-	String get inventoryReport => 'Inventory Report';
 
 	/// en: 'Today'
 	String get today => 'Today';
@@ -543,6 +1059,66 @@ class TranslationsReportsEn {
 
 	/// en: 'Custom Range'
 	String get custom => 'Custom Range';
+
+	/// en: 'Revenue'
+	String get revenue => 'Revenue';
+
+	/// en: 'Cost of Goods Sold'
+	String get cogs => 'Cost of Goods Sold';
+
+	/// en: 'Gross Profit'
+	String get grossProfit => 'Gross Profit';
+
+	/// en: 'Net Profit'
+	String get netProfit => 'Net Profit';
+
+	/// en: 'Total Discounts'
+	String get totalDiscount => 'Total Discounts';
+
+	/// en: 'Avg Discount'
+	String get avgDiscount => 'Avg Discount';
+
+	/// en: 'Receipts with Discount'
+	String get receiptsWithDiscount => 'Receipts with Discount';
+
+	/// en: 'Tax Collected'
+	String get taxCollected => 'Tax Collected';
+
+	/// en: 'Rate'
+	String get taxRate => 'Rate';
+
+	/// en: 'Visits'
+	String get visits => 'Visits';
+
+	/// en: 'Total Spent'
+	String get totalSpent => 'Total Spent';
+
+	/// en: 'Stock Level'
+	String get stockLevel => 'Stock Level';
+
+	/// en: 'Stock Value'
+	String get stockValue => 'Stock Value';
+
+	/// en: 'Low Stock'
+	String get lowStock => 'Low Stock';
+
+	/// en: 'Export'
+	String get export => 'Export';
+
+	/// en: 'Export CSV'
+	String get exportCsv => 'Export CSV';
+
+	/// en: 'Export PDF'
+	String get exportPdf => 'Export PDF';
+
+	/// en: 'Add Expense'
+	String get addExpense => 'Add Expense';
+
+	/// en: 'Expense Category'
+	String get expenseCategory => 'Expense Category';
+
+	/// en: 'No expenses found'
+	String get noExpenses => 'No expenses found';
 }
 
 // Path: settings
@@ -612,4 +1188,112 @@ class TranslationsCurrencyEn {
 
 	/// en: 'US Dollar (USD)'
 	String get usd => 'US Dollar (USD)';
+}
+
+// Path: restaurant
+class TranslationsRestaurantEn {
+	TranslationsRestaurantEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Open Tickets'
+	String get openTickets => 'Open Tickets';
+
+	/// en: 'New Ticket'
+	String get newTicket => 'New Ticket';
+
+	/// en: 'No open tickets'
+	String get noTickets => 'No open tickets';
+
+	/// en: 'Select or create a ticket'
+	String get selectTicket => 'Select or create a ticket';
+
+	/// en: 'Ticket Detail'
+	String get ticketDetail => 'Ticket Detail';
+
+	/// en: 'Assign Table'
+	String get assignTable => 'Assign Table';
+
+	/// en: 'No Table'
+	String get noTable => 'No Table';
+
+	/// en: 'Merge Into This Ticket'
+	String get mergeTicket => 'Merge Into This Ticket';
+
+	/// en: 'Charge'
+	String get charge => 'Charge';
+
+	/// en: 'Ticket sent to POS'
+	String get sentToPOS => 'Ticket sent to POS';
+
+	/// en: 'Add items'
+	String get addItems => 'Add items';
+
+	/// en: 'Table Management'
+	String get tableManagement => 'Table Management';
+
+	/// en: 'Add Table'
+	String get addTable => 'Add Table';
+
+	/// en: 'Edit Table'
+	String get editTable => 'Edit Table';
+
+	/// en: 'No tables yet'
+	String get noTables => 'No tables yet';
+
+	/// en: 'Add First Table'
+	String get addFirstTable => 'Add First Table';
+
+	/// en: 'Table name'
+	String get tableName => 'Table name';
+
+	/// en: 'Seats'
+	String get seats => 'Seats';
+
+	/// en: 'Zone'
+	String get zone => 'Zone';
+
+	/// en: 'Available'
+	String get available => 'Available';
+
+	/// en: 'Occupied'
+	String get occupied => 'Occupied';
+
+	/// en: 'Reserved'
+	String get reserved => 'Reserved';
+
+	/// en: 'Kitchen Display'
+	String get kds => 'Kitchen Display';
+
+	/// en: 'Kitchen'
+	String get kitchen => 'Kitchen';
+
+	/// en: 'Bar'
+	String get bar => 'Bar';
+
+	/// en: 'Dessert'
+	String get dessert => 'Dessert';
+
+	/// en: 'All caught up!'
+	String get allCaughtUp => 'All caught up!';
+
+	/// en: 'Done'
+	String get done => 'Done';
+
+	/// en: 'Recall'
+	String get recall => 'Recall';
+
+	/// en: 'Pending'
+	String get pending => 'Pending';
+
+	/// en: 'Preparing'
+	String get preparing => 'Preparing';
+
+	/// en: 'Ready'
+	String get ready => 'Ready';
+
+	/// en: 'Served'
+	String get served => 'Served';
 }

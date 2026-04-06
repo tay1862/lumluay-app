@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/constants/app_constants.dart';
@@ -159,7 +160,7 @@ class _PinScreenState extends ConsumerState<PinScreen> {
               const SizedBox(height: 24),
               Button(
                 style: const ButtonStyle.ghost(),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => context.pop(),
                 child: Text(t.common.back),
               ),
             ],

@@ -47,13 +47,14 @@ class ItemRepository {
   }
 
   Future<List<Item>> search(String storeId, String query) async {
+    final escaped = _escapeLike(query);
     return (_db.select(_db.items)
           ..where((t) =>
               t.storeId.equals(storeId) &
               t.active.equals(true) &
-              (t.name.like('%$query%') |
-                  t.sku.like('%$query%') |
-                  t.barcode.like('%$query%')))
+              (t.name.like('%$escaped%') |
+                  t.sku.like('%$escaped%') |
+                  t.barcode.like('%$escaped%')))
           ..orderBy([(t) => OrderingTerm.asc(t.name)]))
         .get();
   }
@@ -160,4 +161,7 @@ class ItemRepository {
     final result = await query.getSingle();
     return result.read(_db.items.id.count()) ?? 0;
   }
+
+  static String _escapeLike(String input) =>
+      input.replaceAll('\\', '\\\\').replaceAll('%', '\\%').replaceAll('_', '\\_');
 }

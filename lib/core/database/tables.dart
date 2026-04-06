@@ -203,6 +203,7 @@ class Employees extends Table {
   TextColumn get storeId => text().references(Stores, #id)();
   TextColumn get name => text().withLength(min: 1, max: 255)();
   TextColumn get pinHash => text().nullable()();
+  TextColumn get pinSalt => text().nullable()();
   TextColumn get roleId => text().nullable().references(EmployeeRoles, #id)();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
@@ -498,6 +499,48 @@ class Expenses extends Table {
 }
 
 // ============================================================
+// RECIPES (Production / Composite Items)
+// ============================================================
+
+class Recipes extends Table {
+  TextColumn get id => text()();
+  TextColumn get storeId => text().references(Stores, #id)();
+  TextColumn get finishedItemId => text().references(Items, #id)();
+  RealColumn get outputQuantity => real().withDefault(const Constant(1.0))();
+  TextColumn get notes => text().withDefault(const Constant(''))();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+class RecipeItems extends Table {
+  TextColumn get id => text()();
+  TextColumn get recipeId => text().references(Recipes, #id)();
+  TextColumn get ingredientItemId => text().references(Items, #id)();
+  RealColumn get quantity => real()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+class ProductionLogs extends Table {
+  TextColumn get id => text()();
+  TextColumn get storeId => text().references(Stores, #id)();
+  TextColumn get recipeId => text().references(Recipes, #id)();
+  RealColumn get quantityProduced => real()();
+  TextColumn get employeeId => text().nullable().references(Employees, #id)();
+  TextColumn get notes => text().withDefault(const Constant(''))();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+// ============================================================
 // AUDIT LOG
 // ============================================================
 
@@ -555,6 +598,94 @@ class SyncLog extends Table {
   DateTimeColumn get lastSyncAt => dateTime()();
   TextColumn get direction => text()(); // push, pull
   IntColumn get recordsSynced => integer().withDefault(const Constant(0))();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+// ============================================================
+// RESTAURANT — TABLES
+// ============================================================
+
+class RestaurantTables extends Table {
+  TextColumn get id => text()();
+  TextColumn get storeId => text().references(Stores, #id)();
+  TextColumn get name => text().withLength(min: 1, max: 100)();
+  IntColumn get seats => integer().withDefault(const Constant(4))();
+  TextColumn get zone => text().withDefault(const Constant('main'))();
+  IntColumn get posX => integer().withDefault(const Constant(0))();
+  IntColumn get posY => integer().withDefault(const Constant(0))();
+  TextColumn get status =>
+      text().withDefault(const Constant('available'))(); // available, occupied, reserved
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+// ============================================================
+// RESTAURANT — OPEN TICKETS
+// ============================================================
+
+class OpenTickets extends Table {
+  TextColumn get id => text()();
+  TextColumn get storeId => text().references(Stores, #id)();
+  TextColumn get employeeId =>
+      text().nullable().references(Employees, #id)();
+  TextColumn get customerId =>
+      text().nullable().references(Customers, #id)();
+  TextColumn get tableId =>
+      text().nullable().references(RestaurantTables, #id)();
+  TextColumn get ticketName => text().withDefault(const Constant(''))();
+  TextColumn get diningOption =>
+      text().withDefault(const Constant('dine_in'))();
+  RealColumn get subtotal => real().withDefault(const Constant(0.0))();
+  RealColumn get discountTotal => real().withDefault(const Constant(0.0))();
+  RealColumn get taxTotal => real().withDefault(const Constant(0.0))();
+  RealColumn get total => real().withDefault(const Constant(0.0))();
+  TextColumn get status =>
+      text().withDefault(const Constant('open'))(); // open, closed
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+class OpenTicketItems extends Table {
+  TextColumn get id => text()();
+  TextColumn get ticketId => text().references(OpenTickets, #id)();
+  TextColumn get itemId => text().nullable().references(Items, #id)();
+  TextColumn get variantId => text().nullable()();
+  TextColumn get name => text()();
+  RealColumn get quantity => real().withDefault(const Constant(1.0))();
+  RealColumn get unitPrice => real().withDefault(const Constant(0.0))();
+  RealColumn get discount => real().withDefault(const Constant(0.0))();
+  RealColumn get total => real().withDefault(const Constant(0.0))();
+  TextColumn get modifiers =>
+      text().withDefault(const Constant('[]'))();
+  TextColumn get notes => text().nullable()();
+  TextColumn get kdsStatus =>
+      text().withDefault(const Constant('pending'))(); // pending, preparing, ready, served
+  TextColumn get kdsStation => text().nullable()(); // kitchen, bar, dessert
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+// ============================================================
+// RESTAURANT — KDS CATEGORY ROUTING
+// ============================================================
+
+class KdsRouting extends Table {
+  TextColumn get id => text()();
+  TextColumn get storeId => text().references(Stores, #id)();
+  TextColumn get categoryId => text().references(Categories, #id)();
+  TextColumn get station =>
+      text().withDefault(const Constant('kitchen'))(); // kitchen, bar, dessert, etc.
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
   @override

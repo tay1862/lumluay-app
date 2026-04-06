@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/audit/audit_service.dart';
+import '../../../core/error/error_tracking_service.dart';
 import '../../../core/logging/app_logger.dart';
 import 'auth_repository.dart';
 import 'auth_state.dart';
@@ -31,6 +32,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
           entityId: employee.id,
         );
 
+        ErrorTrackingService.setUser(
+          id: employee.id,
+          name: employee.name,
+          storeId: storeId,
+        );
+
         AppLogger.info('Employee ${employee.name} logged in');
         return null; // no error
       },
@@ -56,6 +63,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       AppLogger.info('Employee ${employee.name} logged out');
     }
 
+    ErrorTrackingService.clearUser();
     state = const AuthState.unauthenticated();
   }
 

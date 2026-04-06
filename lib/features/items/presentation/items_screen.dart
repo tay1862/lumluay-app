@@ -6,7 +6,9 @@ import '../../../core/providers/auth_provider.dart';
 import '../../../i18n/strings.g.dart';
 import '../data/items_providers.dart';
 import 'category_form_dialog.dart';
+import 'csv_import_export_dialog.dart';
 import 'item_form_dialog.dart';
+import 'label_print_dialog.dart';
 
 class ItemsScreen extends ConsumerStatefulWidget {
   const ItemsScreen({super.key});
@@ -44,6 +46,42 @@ class _ItemsScreenState extends ConsumerState<ItemsScreen> {
                   ),
                 ),
               ),
+              Button(
+                style: const ButtonStyle.outline(),
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (_) => CsvImportExportDialog(storeId: auth.currentStoreId ?? ''),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(RadixIcons.download, size: 16),
+                    SizedBox(width: 6),
+                    Text('CSV'),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Button(
+                style: const ButtonStyle.outline(),
+                onPressed: () {
+                  // Batch label print for all visible items
+                  final items = ref.read(itemsStreamProvider(_selectedCategoryId)).valueOrNull ?? [];
+                  if (items.isNotEmpty) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => LabelPrintDialog(items: items),
+                    );
+                  }
+                },
+                child: const Row(
+                  children: [
+                    Icon(RadixIcons.reader, size: 16),
+                    SizedBox(width: 6),
+                    Text('Labels'),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
               Button(
                 style: const ButtonStyle.outline(),
                 onPressed: () => _showCategoryDialog(context, auth.currentStoreId),

@@ -5,6 +5,8 @@ import '../../../core/providers/auth_provider.dart';
 import '../../../core/providers/database_provider.dart';
 import 'category_repository.dart';
 import 'item_repository.dart';
+import 'modifier_repository.dart';
+import 'variant_repository.dart';
 
 final categoryRepositoryProvider = Provider<CategoryRepository>((ref) {
   final db = ref.watch(databaseProvider);
@@ -14,6 +16,16 @@ final categoryRepositoryProvider = Provider<CategoryRepository>((ref) {
 final itemRepositoryProvider = Provider<ItemRepository>((ref) {
   final db = ref.watch(databaseProvider);
   return ItemRepository(db);
+});
+
+final variantRepositoryProvider = Provider<VariantRepository>((ref) {
+  final db = ref.watch(databaseProvider);
+  return VariantRepository(db);
+});
+
+final modifierRepositoryProvider = Provider<ModifierRepository>((ref) {
+  final db = ref.watch(databaseProvider);
+  return ModifierRepository(db);
 });
 
 final categoriesStreamProvider = StreamProvider<List<Category>>((ref) {
@@ -37,4 +49,17 @@ final itemSearchProvider =
   final repo = ref.watch(itemRepositoryProvider);
   if (auth.currentStoreId == null) return [];
   return repo.search(auth.currentStoreId!, query);
+});
+
+final variantGroupsProvider =
+    StreamProvider.family<List<VariantGroup>, String>((ref, itemId) {
+  return ref.watch(variantRepositoryProvider).watchGroups(itemId);
+});
+
+final modifierGroupsProvider = StreamProvider<List<ModifierGroup>>((ref) {
+  final auth = ref.watch(authProvider);
+  if (auth.currentStoreId == null) return const Stream.empty();
+  return ref
+      .watch(modifierRepositoryProvider)
+      .watchGroups(auth.currentStoreId!);
 });

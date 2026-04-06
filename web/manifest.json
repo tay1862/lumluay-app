@@ -1,11 +1,11 @@
 {
-    "name": "lumluay_pos",
-    "short_name": "lumluay_pos",
+    "name": "Lumluay POS",
+    "short_name": "Lumluay POS",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Lumluay POS - Point of Sale System",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

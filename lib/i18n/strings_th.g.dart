@@ -38,14 +38,17 @@ class TranslationsTh extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsCommonTh common = _TranslationsCommonTh._(_root);
 	@override late final _TranslationsAuthTh auth = _TranslationsAuthTh._(_root);
 	@override late final _TranslationsSalesTh sales = _TranslationsSalesTh._(_root);
+	@override late final _TranslationsReceiptsTh receipts = _TranslationsReceiptsTh._(_root);
 	@override late final _TranslationsItemsTh items = _TranslationsItemsTh._(_root);
 	@override late final _TranslationsInventoryTh inventory = _TranslationsInventoryTh._(_root);
+	@override late final _TranslationsProductionTh production = _TranslationsProductionTh._(_root);
 	@override late final _TranslationsCustomersTh customers = _TranslationsCustomersTh._(_root);
 	@override late final _TranslationsEmployeesTh employees = _TranslationsEmployeesTh._(_root);
 	@override late final _TranslationsShiftsTh shifts = _TranslationsShiftsTh._(_root);
 	@override late final _TranslationsReportsTh reports = _TranslationsReportsTh._(_root);
 	@override late final _TranslationsSettingsTh settings = _TranslationsSettingsTh._(_root);
 	@override late final _TranslationsCurrencyTh currency = _TranslationsCurrencyTh._(_root);
+	@override late final _TranslationsRestaurantTh restaurant = _TranslationsRestaurantTh._(_root);
 }
 
 // Path: app
@@ -74,6 +77,9 @@ class _TranslationsNavTh extends TranslationsNavEn {
 	@override String get shifts => 'กะ';
 	@override String get reports => 'รายงาน';
 	@override String get settings => 'ตั้งค่า';
+	@override String get tickets => 'ตั๋ว';
+	@override String get tables => 'โต๊ะ';
+	@override String get kds => 'KDS';
 }
 
 // Path: common
@@ -161,6 +167,42 @@ class _TranslationsSalesTh extends TranslationsSalesEn {
 	@override String get itemAdded => 'เพิ่มสินค้าแล้ว';
 	@override String get refund => 'คืนเงิน';
 	@override String get voidReceipt => 'ยกเลิกใบเสร็จ';
+	@override String get splitPayment => 'แบ่งจ่าย';
+	@override String get amountTendered => 'จำนวนที่จ่าย';
+	@override String get insufficientAmount => 'จำนวนเงินไม่พอ';
+	@override String get paymentMethod => 'วิธีชำระ';
+}
+
+// Path: receipts
+class _TranslationsReceiptsTh extends TranslationsReceiptsEn {
+	_TranslationsReceiptsTh._(TranslationsTh root) : this._root = root, super.internal(root);
+
+	final TranslationsTh _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'ใบเสร็จ';
+	@override String get receiptHistory => 'ประวัติใบเสร็จ';
+	@override String get receiptDetail => 'รายละเอียดใบเสร็จ';
+	@override String get noReceipts => 'ไม่พบใบเสร็จ';
+	@override String get reprint => 'พิมพ์ใหม่';
+	@override String get emailReceipt => 'ส่งทางอีเมล';
+	@override String get completed => 'สำเร็จ';
+	@override String get voided => 'ยกเลิก';
+	@override String get refunded => 'คืนเงินแล้ว';
+	@override String get refundReceipt => 'คืนเงินใบเสร็จ';
+	@override String get refundReason => 'เหตุผลคืนเงิน';
+	@override String get refundReasonHint => 'กรุณาระบุเหตุผล';
+	@override String get fullRefund => 'คืนเงินทั้งหมด';
+	@override String get partialRefund => 'คืนเงินบางส่วน';
+	@override String get selectItemsToRefund => 'เลือกสินค้าที่ต้องการคืน';
+	@override String get refundAmount => 'จำนวนเงินคืน';
+	@override String get refundProcessed => 'คืนเงินสำเร็จ';
+	@override String get confirmVoid => 'คุณแน่ใจหรือไม่ว่าต้องการยกเลิกใบเสร็จนี้?';
+	@override String get confirmRefund => 'คุณแน่ใจหรือไม่ว่าต้องการคืนเงินใบเสร็จนี้?';
+	@override String items({required Object count}) => '${count} รายการ';
+	@override String get paidWith => 'ชำระด้วย';
+	@override String get printReceipt => 'พิมพ์ใบเสร็จ';
+	@override String get shareReceipt => 'แชร์ใบเสร็จ';
 }
 
 // Path: items
@@ -205,6 +247,96 @@ class _TranslationsInventoryTh extends TranslationsInventoryEn {
 	@override String get lowStock => 'สต๊อกต่ำ';
 	@override String get outOfStock => 'หมดสต๊อก';
 	@override String get inStock => 'มีสต๊อก';
+	@override String get quantity => 'จำนวน';
+	@override String get adjustment => 'การปรับ';
+	@override String get reason => 'เหตุผล';
+	@override String get damaged => 'เสียหาย';
+	@override String get lost => 'สูญหาย';
+	@override String get correction => 'แก้ไข';
+	@override String get received => 'รับเข้า';
+	@override String get returned => 'ส่งคืน';
+	@override String get other => 'อื่นๆ';
+	@override String get adjustmentHistory => 'ประวัติการปรับ';
+	@override String get noStockItems => 'ไม่พบรายการสต๊อก';
+	@override String get startCount => 'เริ่มนับ';
+	@override String get applyCount => 'นำไปใช้';
+	@override String get expected => 'คาดหมาย';
+	@override String get counted => 'นับได้';
+	@override String get difference => 'ส่วนต่าง';
+	@override String get countCompleted => 'นับสต๊อกเสร็จสิ้น';
+	@override String get threshold => 'เกณฑ์แจ้งเตือน';
+	@override String get setThreshold => 'ตั้งเกณฑ์สต๊อกต่ำ';
+	@override String get valuation => 'มูลค่าสต๊อก';
+	@override String get totalValue => 'มูลค่ารวม';
+	@override String get adjustmentCreated => 'ปรับสต๊อกสำเร็จ';
+	@override String get createPO => 'สร้างใบสั่งซื้อ';
+	@override String get editPO => 'แก้ไขใบสั่งซื้อ';
+	@override String get poNumber => 'ใบสั่งซื้อ #';
+	@override String get noPurchaseOrders => 'ไม่มีใบสั่งซื้อ';
+	@override String get draft => 'ร่าง';
+	@override String get ordered => 'สั่งแล้ว';
+	@override String get partiallyReceived => 'รับบางส่วน';
+	@override String get receivedStatus => 'รับแล้ว';
+	@override String get receiveStock => 'รับสินค้า';
+	@override String get receivedQty => 'จำนวนที่รับ';
+	@override String get addSupplier => 'เพิ่มผู้จัดจำหน่าย';
+	@override String get editSupplier => 'แก้ไขผู้จัดจำหน่าย';
+	@override String get noSuppliers => 'ไม่มีผู้จัดจำหน่าย';
+	@override String get supplierName => 'ชื่อผู้จัดจำหน่าย';
+	@override String get phone => 'โทรศัพท์';
+	@override String get email => 'อีเมล';
+	@override String get address => 'ที่อยู่';
+	@override String get selectSupplier => 'เลือกผู้จัดจำหน่าย';
+	@override String get addItems => 'เพิ่มรายการ';
+	@override String get unitCost => 'ราคาต่อหน่วย';
+	@override String get poCreated => 'สร้างใบสั่งซื้อสำเร็จ';
+	@override String get poUpdated => 'แก้ไขใบสั่งซื้อสำเร็จ';
+	@override String get stockReceived => 'รับสินค้าสำเร็จ';
+	@override String get createTransfer => 'สร้างการโอน';
+	@override String get noTransfers => 'ไม่มีการโอน';
+	@override String get fromStore => 'จากร้าน';
+	@override String get toStore => 'ไปร้าน';
+	@override String get pending => 'รอดำเนินการ';
+	@override String get inTransit => 'กำลังส่ง';
+	@override String get transferCreated => 'สร้างการโอนสำเร็จ';
+	@override String get transferCompleted => 'โอนสำเร็จ';
+	@override String get selectItems => 'เลือกรายการ';
+}
+
+// Path: production
+class _TranslationsProductionTh extends TranslationsProductionEn {
+	_TranslationsProductionTh._(TranslationsTh root) : this._root = root, super.internal(root);
+
+	final TranslationsTh _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'การผลิต';
+	@override String get recipes => 'สูตร';
+	@override String get addRecipe => 'เพิ่มสูตร';
+	@override String get editRecipe => 'แก้ไขสูตร';
+	@override String get noRecipes => 'ยังไม่มีสูตร';
+	@override String get finishedItem => 'สินค้าสำเร็จ';
+	@override String get selectFinishedItem => 'เลือกสินค้าสำเร็จ';
+	@override String get outputQuantity => 'จำนวนผลผลิต';
+	@override String get ingredients => 'วัตถุดิบ';
+	@override String get addIngredient => 'เพิ่มวัตถุดิบ';
+	@override String get selectIngredient => 'เลือกวัตถุดิบ';
+	@override String get ingredientQty => 'จำนวนที่ต้องการ';
+	@override String get produce => 'ผลิต';
+	@override String get produceNow => 'ผลิตเลย';
+	@override String get batchQuantity => 'จำนวนชุด';
+	@override String get insufficientStock => 'วัตถุดิบไม่เพียงพอ';
+	@override String get productionComplete => 'การผลิตเสร็จสมบูรณ์';
+	@override String get recipeCreated => 'สร้างสูตรสำเร็จ';
+	@override String get recipeUpdated => 'แก้ไขสูตรสำเร็จ';
+	@override String get recipeDeleted => 'ลบสูตรสำเร็จ';
+	@override String get confirmDelete => 'คุณแน่ใจหรือไม่ว่าต้องการลบสูตรนี้?';
+	@override String get productionLog => 'บันทึกการผลิต';
+	@override String get noLogs => 'ยังไม่มีบันทึกการผลิต';
+	@override String get currentStock => 'สต็อกปัจจุบัน';
+	@override String get required => 'ต้องการ';
+	@override String get available => 'มีอยู่';
+	@override String get notes => 'หมายเหตุ';
 }
 
 // Path: customers
@@ -220,6 +352,20 @@ class _TranslationsCustomersTh extends TranslationsCustomersEn {
 	@override String get loyaltyPoints => 'คะแนนสะสม';
 	@override String get totalSpent => 'ใช้จ่ายทั้งหมด';
 	@override String get visits => 'เข้าใช้';
+	@override String get noCustomers => 'ไม่มีลูกค้า';
+	@override String get customerName => 'ชื่อลูกค้า';
+	@override String get phone => 'โทรศัพท์';
+	@override String get email => 'อีเมล';
+	@override String get address => 'ที่อยู่';
+	@override String get birthday => 'วันเกิด';
+	@override String get notes => 'หมายเหตุ';
+	@override String get purchaseHistory => 'ประวัติการซื้อ';
+	@override String get loyaltyBalance => 'คะแนนคงเหลือ';
+	@override String get pointsEarned => 'คะแนนที่ได้';
+	@override String get pointsRedeemed => 'คะแนนที่ใช้';
+	@override String get customerCreated => 'เพิ่มลูกค้าสำเร็จ';
+	@override String get customerUpdated => 'แก้ไขลูกค้าสำเร็จ';
+	@override String get assignCustomer => 'เลือกลูกค้า';
 }
 
 // Path: employees
@@ -237,6 +383,29 @@ class _TranslationsEmployeesTh extends TranslationsEmployeesEn {
 	@override String get timeTracking => 'บันทึกเวลา';
 	@override String get clockIn => 'เข้างาน';
 	@override String get clockOut => 'ออกงาน';
+	@override String get employeeName => 'ชื่อพนักงาน';
+	@override String get selectRole => 'เลือกบทบาท';
+	@override String get enterPin => 'ใส่รหัส PIN';
+	@override String get pinHint => '4-6 หลัก';
+	@override String get noRole => 'ไม่มีบทบาท';
+	@override String get roles => 'บทบาท';
+	@override String get addRole => 'เพิ่มบทบาท';
+	@override String get editRole => 'แก้ไขบทบาท';
+	@override String get roleName => 'ชื่อบทบาท';
+	@override String get noRoles => 'ยังไม่มีบทบาท';
+	@override String get employeeCreated => 'สร้างพนักงานแล้ว';
+	@override String get employeeUpdated => 'อัปเดตพนักงานแล้ว';
+	@override String get employeeDeleted => 'ลบพนักงานแล้ว';
+	@override String get roleCreated => 'สร้างบทบาทแล้ว';
+	@override String get roleUpdated => 'อัปเดตบทบาทแล้ว';
+	@override String get roleDeleted => 'ลบบทบาทแล้ว';
+	@override String get clockedIn => 'เข้างานแล้ว';
+	@override String get clockedOut => 'ออกงานแล้ว';
+	@override String get notClockedIn => 'ยังไม่ได้เข้างาน';
+	@override String get timeEntries => 'บันทึกเวลา';
+	@override String get noTimeEntries => 'ไม่มีบันทึกเวลา';
+	@override String get duration => 'ระยะเวลา';
+	@override String get confirmDelete => 'ลบพนักงานนี้?';
 }
 
 // Path: shifts
@@ -256,6 +425,19 @@ class _TranslationsShiftsTh extends TranslationsShiftsEn {
 	@override String get cashIn => 'เงินเข้า';
 	@override String get cashOut => 'เงินออก';
 	@override String get shiftHistory => 'ประวัติกะ';
+	@override String get noShift => 'ไม่มีกะเปิด';
+	@override String get shiftOpened => 'เปิดกะแล้ว';
+	@override String get shiftClosed => 'ปิดกะแล้ว';
+	@override String get cashAdded => 'เพิ่มเงินแล้ว';
+	@override String get cashRemoved => 'ถอนเงินแล้ว';
+	@override String get reason => 'เหตุผล';
+	@override String get amount => 'จำนวน';
+	@override String get enterAmount => 'ใส่จำนวน';
+	@override String get alreadyOpen => 'มีกะเปิดอยู่แล้ว';
+	@override String get shiftSummary => 'สรุปกะ';
+	@override String get totalSales => 'ยอดขายทั้งหมด';
+	@override String get cashMovements => 'การเคลื่อนย้ายเงิน';
+	@override String get noMovements => 'ไม่มีการเคลื่อนย้ายเงิน';
 }
 
 // Path: reports
@@ -270,13 +452,37 @@ class _TranslationsReportsTh extends TranslationsReportsEn {
 	@override String get salesByCategory => 'ขายตามหมวดหมู่';
 	@override String get salesByEmployee => 'ขายตามพนักงาน';
 	@override String get salesByPayment => 'ขายตามการจ่าย';
-	@override String get profitAndLoss => 'กำไร-ขาดทุน';
-	@override String get expenses => 'รายจ่าย';
-	@override String get inventoryReport => 'รายงานสต๊อก';
+	@override String get salesByHour => 'ขายตามชั่วโมง';
+	@override String get taxReport => 'รายงานภาษี';
+	@override String get discountReport => 'รายงานส่วนลด';
+	@override String get customerReport => 'รายงานลูกค้า';
+	@override String get inventoryReport => 'รายงานสินค้า';
+	@override String get profitAndLoss => 'กำไร & ขาดทุน';
+	@override String get expenses => 'ค่าใช้จ่าย';
 	@override String get today => 'วันนี้';
 	@override String get thisWeek => 'สัปดาห์นี้';
 	@override String get thisMonth => 'เดือนนี้';
-	@override String get custom => 'กำหนดเอง';
+	@override String get custom => 'กำหนดเวลา';
+	@override String get revenue => 'รายได้';
+	@override String get cogs => 'ต้นทุนสินค้า';
+	@override String get grossProfit => 'กำไรรวม';
+	@override String get netProfit => 'กำไรสุทธิ';
+	@override String get totalDiscount => 'รวมส่วนลด';
+	@override String get avgDiscount => 'ส่วนลดเฉลี่ย';
+	@override String get receiptsWithDiscount => 'บิลที่มีส่วนลด';
+	@override String get taxCollected => 'ภาษีเก็บได้';
+	@override String get taxRate => 'อัตรา';
+	@override String get visits => 'จำนวนครั้ง';
+	@override String get totalSpent => 'ใช้จ่ายทั้งหมด';
+	@override String get stockLevel => 'ระดับสต็อก';
+	@override String get stockValue => 'มูลค่าสต็อก';
+	@override String get lowStock => 'สต็อกต่ำ';
+	@override String get export => 'ส่งออก';
+	@override String get exportCsv => 'ส่งออก CSV';
+	@override String get exportPdf => 'ส่งออก PDF';
+	@override String get addExpense => 'เพิ่มค่าใช้จ่าย';
+	@override String get expenseCategory => 'หมวดค่าใช้จ่าย';
+	@override String get noExpenses => 'ไม่มีค่าใช้จ่าย';
 }
 
 // Path: settings
@@ -312,4 +518,46 @@ class _TranslationsCurrencyTh extends TranslationsCurrencyEn {
 	@override String get lak => 'กีบลาว (₭)';
 	@override String get thb => 'บาทไทย (฿)';
 	@override String get usd => 'ดอลลาร์ (USD)';
+}
+
+// Path: restaurant
+class _TranslationsRestaurantTh extends TranslationsRestaurantEn {
+	_TranslationsRestaurantTh._(TranslationsTh root) : this._root = root, super.internal(root);
+
+	final TranslationsTh _root; // ignore: unused_field
+
+	// Translations
+	@override String get openTickets => 'ตั๋วที่เปิด';
+	@override String get newTicket => 'ตั๋วใหม่';
+	@override String get noTickets => 'ไม่มีตั๋วเปิด';
+	@override String get selectTicket => 'เลือกหรือสร้างตั๋ว';
+	@override String get ticketDetail => 'รายละเอียดตั๋ว';
+	@override String get assignTable => 'กำหนดโต๊ะ';
+	@override String get noTable => 'ไม่มีโต๊ะ';
+	@override String get mergeTicket => 'รวมเข้าตั๋วนี้';
+	@override String get charge => 'คิดเงิน';
+	@override String get sentToPOS => 'ส่งไป POS แล้ว';
+	@override String get addItems => 'เพิ่มรายการ';
+	@override String get tableManagement => 'จัดการโต๊ะ';
+	@override String get addTable => 'เพิ่มโต๊ะ';
+	@override String get editTable => 'แก้ไขโต๊ะ';
+	@override String get noTables => 'ยังไม่มีโต๊ะ';
+	@override String get addFirstTable => 'เพิ่มโต๊ะแรก';
+	@override String get tableName => 'ชื่อโต๊ะ';
+	@override String get seats => 'ที่นั่ง';
+	@override String get zone => 'โซน';
+	@override String get available => 'ว่าง';
+	@override String get occupied => 'มีคน';
+	@override String get reserved => 'จองแล้ว';
+	@override String get kds => 'จอแสดงครัว';
+	@override String get kitchen => 'ครัว';
+	@override String get bar => 'บาร์';
+	@override String get dessert => 'ของหวาน';
+	@override String get allCaughtUp => 'เสร็จหมดแล้ว!';
+	@override String get done => 'เสร็จ';
+	@override String get recall => 'เรียกคืน';
+	@override String get pending => 'รอ';
+	@override String get preparing => 'กำลังเตรียม';
+	@override String get ready => 'พร้อม';
+	@override String get served => 'เสิร์ฟแล้ว';
 }

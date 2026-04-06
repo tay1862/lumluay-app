@@ -1,7 +1,10 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../core/constants/app_constants.dart';
+import '../../core/providers/auth_provider.dart';
+import '../../features/settings/data/settings_providers.dart';
 
 class _NavItem {
   final String label;
@@ -17,16 +20,19 @@ class _NavItem {
 
 const _navItems = [
   _NavItem(label: 'Sales', icon: RadixIcons.desktop, path: '/sales'),
+  _NavItem(label: 'Tickets', icon: RadixIcons.reader, path: '/tickets'),
   _NavItem(label: 'Items', icon: RadixIcons.cube, path: '/items'),
   _NavItem(label: 'Inventory', icon: RadixIcons.archive, path: '/inventory'),
   _NavItem(label: 'Customers', icon: RadixIcons.person, path: '/customers'),
   _NavItem(label: 'Employees', icon: RadixIcons.idCard, path: '/employees'),
   _NavItem(label: 'Shifts', icon: RadixIcons.clock, path: '/shifts'),
+  _NavItem(label: 'Tables', icon: RadixIcons.home, path: '/tables'),
+  _NavItem(label: 'KDS', icon: RadixIcons.timer, path: '/kds'),
   _NavItem(label: 'Reports', icon: RadixIcons.barChart, path: '/reports'),
   _NavItem(label: 'Settings', icon: RadixIcons.gear, path: '/settings'),
 ];
 
-class AppShell extends StatelessWidget {
+class AppShell extends ConsumerWidget {
   final Widget child;
 
   const AppShell({super.key, required this.child});
@@ -44,7 +50,7 @@ class AppShell extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final isDesktop = width >= AppConstants.desktopBreakpoint;
     final isTablet = width >= AppConstants.tabletBreakpoint && !isDesktop;
@@ -54,6 +60,7 @@ class AppShell extends StatelessWidget {
       return _DesktopShell(
         currentIndex: currentIndex,
         onNavTap: (i) => _onNavTap(context, i),
+        ref: ref,
         child: child,
       );
     }
@@ -81,11 +88,13 @@ class AppShell extends StatelessWidget {
 class _DesktopShell extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onNavTap;
+  final WidgetRef ref;
   final Widget child;
 
   const _DesktopShell({
     required this.currentIndex,
     required this.onNavTap,
+    required this.ref,
     required this.child,
   });
 
@@ -151,12 +160,65 @@ class _DesktopShell extends StatelessWidget {
                     },
                   ),
                 ),
+                const Divider(),
+                // Store switcher
+                _StoreSwitcher(ref: ref),
               ],
             ),
           ),
         ),
         Expanded(child: child),
       ],
+    );
+  }
+}
+
+class _StoreSwitcher extends StatelessWidget {
+  final WidgetRef ref;
+
+  const _StoreSwitcher({required this.ref});
+
+  @override
+  Widget build(BuildContext context) {
+    final storesAsync = ref.watch(allStoresStreamProvider);
+    final currentStoreId = ref.watch(authProvider).currentStoreId;
+
+    return storesAsync.when(
+      data: (stores) {
+        if (stores.length <= 1) return const SizedBox.shrink();
+        return Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: stores.map((store) {
+              final isSelected = store.id == currentStoreId;
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 1),
+                child: Button(
+                  style: isSelected
+                      ? const ButtonStyle.primary(density: ButtonDensity.compact)
+                      : const ButtonStyle.ghost(density: ButtonDensity.compact),
+                  onPressed: () =>
+                      ref.read(authProvider.notifier).switchStore(store.id),
+                  child: Row(
+                    children: [
+                      const Icon(RadixIcons.home, size: 14),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(store.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 12)),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        );
+      },
+      loading: () => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
     );
   }
 }
